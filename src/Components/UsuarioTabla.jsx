@@ -1,25 +1,26 @@
-function UsuarioTabla({ usuarios }) {
+import Titulo from "./Titulo";
+import HeaderTabla from "./HeaderTable";
 
+const style = {
+    fontFamily:"Arial",
+    fontSize:"15px"    
+}
+
+function UsuarioTabla({ usuarios, handleClickEdit}) {
+    const columnas = ["ID", "Login", "", ""];
     return (
         <div>
+            <Titulo texto={"Lista de Usuarios"}></Titulo>
             <table border="1" style={{borderCollapse:"collapse"}}>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Login</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
+                <HeaderTabla columnas={columnas}></HeaderTabla>                
                 <tbody>
                     {usuarios.map((usuario) => 
-                        <tr key={usuario.id}>
-                            <td>{usuario.id}</td>
-                            <td>{usuario.login}</td>
-                            <td><a href="#" onClick={() => alert(usuario.id)}>Eliminar</a></td>
-                            <td><a href="#" onClick={() => alert(usuario.id)}>Editar</a></td>
-                        </tr>
-                    
+                        <tr style={style} key={usuario.id}>
+                            <td style={{paddingLeft: "5px", paddingRight:"5px"}}>{usuario.id}</td>
+                            <td style={{paddingLeft: "5px", paddingRight:"5px"}}>{usuario.login}</td>
+                            <td style={{paddingLeft: "5px", paddingRight:"5px"}}><a href="#" onClick={() => alert(usuario.id)}>Eliminar</a></td>
+                            <td style={{paddingLeft: "5px", paddingRight:"5px"}}><a href="#" onClick={() => handleClickEdit(usuario)}>Editar</a></td>
+                        </tr>                    
                     )}
                 </tbody>
             </table>

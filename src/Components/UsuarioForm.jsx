@@ -1,30 +1,17 @@
 import { useState } from "react";
+import Titulo from "./Titulo";
 
-let nextId = 0;
-function UsuarioForm(props){
-    const [usuarios,  setUsuarios] = props.usuariosList;
-    const [login, setLogin] = useState("");
-    const [password, setPassword] = useState("");
-    const [modoFiltro, setModoFiltro] = props.modoFiltro;
-    
-    const handleSumbit = (e) => {
-        e.preventDefault();
-        //Aqui se debe validar los inputs
-        setUsuarios([...usuarios, {id: nextId++, login: login, password: password}]);
-        setLogin("");
-        setPassword("");
-        setModoFiltro(false);
-    }
-
+function UsuarioForm({usuario, handleSubmit}){
+    const[usuarioEdit, setUsuarioEdit] = usuario;
     return (
         <div>
-            <h5>Usuario</h5>
-            <form  action="" onSubmit={handleSumbit}>
+            <Titulo texto={"Registro Usuario"}></Titulo>
+            <form  action="" onSubmit={handleSubmit}>
                 <label>Login:</label>
-                <input id="login" type="text" value={login} onChange={(e) => setLogin(e.target.value)}></input>
+                <input id="login" type="text" value={usuarioEdit.login} onChange={(e) => setUsuarioEdit({...usuarioEdit, login:e.target.value})}></input>
                 <br></br>
                 <label>Password:</label>
-                <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
+                <input id="password" type="password" value={usuarioEdit.password} onChange={(e) => setUsuarioEdit({...usuarioEdit, password:e.target.value})}></input>
                 <br></br>
                 <button>Guardar</button>
             </form>

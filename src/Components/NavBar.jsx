@@ -12,14 +12,14 @@ const styles = {
 
 function NavBar(props) {
     const [login,  setLogin] = props.login;
+    const [modo, setModo] = props.modo;
     return (
         <nav style={styles.navBar}>
             <div>
                 <Logo></Logo>
             </div>
             <div className={Styles.horizontal}>
-                <a href="#">Operaciones</a>
-                <a href="#">Ayuda</a>
+                <a href="#" onClick={() => setModo("new")}>Nuevo</a>                
             </div>
             <div className={Styles.horizontal}>
                 <input type="text" value={login} onChange={(e) => setLogin(e.target.value)} ></input>
