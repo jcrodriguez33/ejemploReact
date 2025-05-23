@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import UsuarioForm from './Components/UsuarioForm';
-import UsuarioTabla from './Components/UsuarioTabla';
-import NavBar from './Components/NavBar';
+import UsuarioForm from './views/UsuarioForm';
+import UsuarioTabla from './views/UsuarioTabla';
+import NavBar from './views/NavBar';
+import { BrowserRouter, Route, Routes, Link, useNavigate } from 'react-router-dom';
 
 let nextId = 0;
 
@@ -17,29 +18,13 @@ function App() {
     setModo("search");
   }
 
-  useEffect(() => {
-    console.log("UseEfect 1");
-  });
 
-  useEffect(() => {
-    console.log("UseEfect 2");
-  },[]);
-
-  useEffect(() => {
-    console.log("UseEfect 3");    
-  },[usuarios, modo]);
-  
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (modo === "edit"){
-        setUsuarios(usuarios => [...usuarios.filter(u => u.id !== usuario.id), usuario]);
-    } else {
-      usuario.id = nextId++;
-      //Aqui se debe validar los inputs
-      setUsuarios([...usuarios, usuario]);      
-    }
-    setModo("list");
-    setUsuario("");
+    //setUsuarios(usuarios => [...usuarios.filter(u => u.id !== usuario.id), usuario]);
+    usuario.id = nextId++;
+    //Aqui se debe validar los inputs
+    setUsuarios([...usuarios, usuario]);
+    setUsuario({});
   }
 
   const handleClickEdit = (usuarioEdit) => {
@@ -50,15 +35,21 @@ function App() {
   return (
     <>
       <div>
-        <NavBar login={[login, setLogin]} modo={[modo, setModo]} handleClickBuscar={handleClickBuscar}></NavBar>
-        {(() => {
-          switch (modo) {
-            case "list": return <UsuarioTabla usuarios={usuarios} handleClickEdit={handleClickEdit}></UsuarioTabla>
-            case "search": return <UsuarioTabla usuarios={filtrados} handleClickEdit={handleClickEdit}></UsuarioTabla>
-            case "new": 
-            case "edit": return <UsuarioForm usuario={[usuario, setUsuario]} handleSubmit={handleSubmit}></UsuarioForm>
-          }
-        })()}
+        <BrowserRouter>
+          <nav>
+            <ul>
+              <li><Link to="/pagina">Home</Link></li>
+              <li><Link to="/usuarios">Usuarios</Link></li>
+              <li><Link to="/usuario">Nuevo</Link></li>
+            </ul>
+          </nav>
+          <Routes>
+            <Route index element={<UsuarioTabla usuarios={usuarios} handleClickEdit={handleClickEdit}></UsuarioTabla>}></Route>
+            <Route path="/pagina" element={<h1>Pagina Principal</h1>}></Route>
+            <Route path="/usuarios" element={<UsuarioTabla usuarios={usuarios} handleClickEdit={handleClickEdit}></UsuarioTabla>}></Route>
+            <Route path="/usuario" element={<UsuarioForm usuario={[usuario, setUsuario]} handleSubmit={handleSubmit}></UsuarioForm>}></Route>
+          </Routes>
+        </BrowserRouter>
       </div>
     </>
   )

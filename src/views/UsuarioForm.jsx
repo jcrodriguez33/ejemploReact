@@ -1,12 +1,18 @@
 import { useState } from "react";
-import Titulo from "./Titulo";
+import Titulo from "../views/Titulo";
+import { useNavigate } from "react-router-dom";
 
 function UsuarioForm({usuario, handleSubmit}){
     const[usuarioEdit, setUsuarioEdit] = usuario;
+    const navigate = useNavigate();
     return (
         <div>
             <Titulo texto={"Registro Usuario"}></Titulo>
-            <form  action="" onSubmit={handleSubmit}>
+            <form  action="" onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit();
+                navigate("/usuarios");
+            }}>
                 <label>Login:</label>
                 <input id="login" type="text" value={usuarioEdit.login} onChange={(e) => setUsuarioEdit({...usuarioEdit, login:e.target.value})}></input>
                 <br></br>
